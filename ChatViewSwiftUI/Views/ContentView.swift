@@ -11,6 +11,8 @@ struct ContentView: View {
     
     @State private var textFieldText: String = ""
     
+    let vm: ChatViewModel = ChatViewModel()
+    
     var body: some View {
         VStack(spacing: 0){
             // Message Area
@@ -32,14 +34,14 @@ extension ContentView {
     private var messageArea: some View {
         ScrollView{
             VStack{
-                ForEach(0..<15){ _ in
-                    MessageRow()
+                ForEach(vm.messages){ message in
+                    MessageRow(message:message)
                 }
             }
             .padding(.horizontal)
             .padding(.top, 72)
         }
-        .background(Color.cyan)
+        .background(Color("Background"))
     }
     
     private var inputArea: some View {
@@ -65,8 +67,9 @@ extension ContentView {
                 .font(.title2)
             
         }
-        .padding()
-        .background(Color.white)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .background(Color(uiColor: .systemBackground))
     }
     
     private var navigationArea: some View {
@@ -85,6 +88,6 @@ extension ContentView {
             
         }
         .padding()
-        .background(Color.cyan.opacity(0.9))
+        .background(Color("Background").opacity(0.9))
     }
 }
