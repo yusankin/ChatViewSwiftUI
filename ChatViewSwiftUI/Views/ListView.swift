@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ListView: View {
+    
+    @ObservedObject var vm: ChatViewModel = ChatViewModel()
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -46,20 +49,21 @@ extension ListView {
     private var list: some View {
         ScrollView{
             VStack{
-                ForEach(0..<4){ _ in
+                ForEach(vm.chatData){ chat in
                     NavigationLink{
-                        ContentView()
+                        ContentView(chat: chat)
                             .toolbar(.hidden)
                     } label: {
-                        listRow
+                        listRow(chat: chat)
                     }
                 }
                     
             }
         }
     }
-    
-    private var listRow: some View {
+      
+    private func listRow(chat: Chat) -> some View {
+//    private var listRow: some View {
         HStack{
             Image("user01")
                 .resizable()
@@ -70,13 +74,14 @@ extension ListView {
                 Text("TITLE")
                     .foregroundColor(.primary)
                 
-                Text("CONTENT")
+                Text(chat.recentMessageText)
                     .font(.footnote)
+                    .lineLimit(1)
                     .foregroundColor(Color(uiColor: .secondaryLabel))
             }
             Spacer()
             
-            Text("12/31")
+            Text(chat.recentMessageDateString)
                 .font(.caption)
                 .foregroundColor(Color(uiColor: .secondaryLabel))
         }
