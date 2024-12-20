@@ -52,6 +52,7 @@ extension ListView {
                 ForEach(vm.chatData){ chat in
                     NavigationLink{
                         ContentView(chat: chat)
+                            .environmentObject(vm)
                             .toolbar(.hidden)
                     } label: {
                         listRow(chat: chat)

@@ -15,7 +15,8 @@ struct ContentView: View {
     @FocusState private var textFieldFocused: Bool
     @Environment(\.dismiss) private var dismiss
     
-    @ObservedObject var vm: ChatViewModel = ChatViewModel()
+    @EnvironmentObject var vm: ChatViewModel
+//    @ObservedObject var vm: ChatViewModel = ChatViewModel()
     
     var body: some View {
         VStack(spacing: 0){
@@ -117,14 +118,14 @@ extension ContentView {
     
     private func sendMessage(){
         if !textFieldText.isEmpty {
-            vm.addMessage(text: textFieldText)
+            vm.addMessage(chatID: chat.id ,text: textFieldText)
             textFieldText = ""
         }
 
     }
     
     private func scrollToLast(proxy: ScrollViewProxy){
-        if let lastMessage = vm.messages.last{
+        if let lastMessage = chat.messages.last{
             proxy.scrollTo(lastMessage.id, anchor: .bottom)
         }
         
